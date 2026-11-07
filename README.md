@@ -5,7 +5,7 @@ A small command-line tool for Windows that tidies up a folder by sorting files i
 By default, it cleans up your Downloads folder. If you specify a different folder when starting the program, that folder is cleaned up instead.
 
 Features
-Sorts files into Documents, Pictures, Videos, Archives, Installers and Junk
+Sorts files into Documents, Pictures, Videos, Archives, Installers, Music and Junk
 Shows a preview of every move and asks for confirmation before anything happens
 Dry-run mode to see what would happen without moving a single file
 Never overwrites anything: if a file name already exists at the destination, it becomes file (1).ext, file (2).ext, …
