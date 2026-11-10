@@ -71,6 +71,14 @@ Files are really moved. If you're unsure, run with --dry-run first.
 If a single file can't be moved (e.g. because it's open in another program), it is reported and skipped; all other files are still processed.
 File extensions are normalized to lowercase when moved (PHOTO.JPG → PHOTO.jpg).
 OneDrive: If your Documents or Pictures folder is synced with OneDrive, Windows may store it in a different location (e.g. C:\Users\YourName\OneDrive\Documents). Download-Cleaner always uses the folders inside your user folder, so check where your files end up after the first run.
+
+With patch 1.3.6 the program is now able to detect redundant files in your folder and move or delete them.
+On start the program will ask you if you want safeRun activated or not. 
+With safeRun disabled the program will delete all redundant files from the folder it's running in (by default your Downloads-folder) it will ask list all redundant files and then ask you if you want to delete them or not.
+When safeRun is enabled you also will be shown a list with redundant files but 
+the program will not delete them. It will move all files into Downloads//DL-Cleaner//Trash and after that you can continue with the origin files moving function. after moving the redundant files you will also be asked if you want to open the folder where the redundant files where moved.
+All this will be explained while the program during runtime if you choose not to skip the intro at the beginning.
+
 Building from source
 
 Requirements:
