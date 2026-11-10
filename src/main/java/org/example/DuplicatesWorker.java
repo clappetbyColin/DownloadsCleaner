@@ -55,7 +55,25 @@ public class DuplicatesWorker extends Printer {
             return false;
         }
     }
-
+    private List<HashHolder> sortTheHashHolders(List<HashHolder> hashHolders) {
+        HashHolder temp;
+        boolean sorted = true;
+        while(sorted) {
+            for(int i = 0; i < hashHolders.size()-1;i++) {
+                if((hashHolders.get(i).getName().length())> (hashHolders.get(i+1).getName().length())) {
+                    sorted = false;
+                    temp = hashHolders.get(i);
+                    hashHolders.set(i,hashHolders.get(i+1));
+                    hashHolders.set(i+1,temp);
+                }
+            }
+            if(sorted == true) {
+                break;
+            }
+            sorted = true;
+        }
+        return hashHolders;
+    }
     public List<Path> searchDuplicates(List<Path> listeAllerDateien, Map<Long, List<Path>> hashMap) throws IOException, NoSuchAlgorithmException {
         List<Long> sizeList = new ArrayList<>();
         List<Path> redundantData = new ArrayList<>();
@@ -86,6 +104,7 @@ public class DuplicatesWorker extends Printer {
                 }
 
             }
+            hashHolders = sortTheHashHolders(hashHolders);
             //Vergleich der Hashes in der jeweiligen gruppe
             for (int i = 0; i < hashHolders.size(); i++) {
                 for (int j = i + 1; j < hashHolders.size(); j++) {

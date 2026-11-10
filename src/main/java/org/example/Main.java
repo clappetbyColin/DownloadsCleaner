@@ -146,7 +146,8 @@ public class Main extends Printer{
                         print("Yes (Y)   No (N)");
                         input = br.readLine();
                         if((input.equals("Y"))|| (input.equals("y"))) {
-                            duplicates.deleteDuplicateFiles(redundantData);
+                            print("Moving files to Downloads\\DL-Cleaner\\Trash...");
+                            duplicates.trashMoving(redundantData);
                             break;
                         } else if ((input.equals("N"))||(input.equals("n"))) {
                             break;
@@ -154,8 +155,8 @@ public class Main extends Printer{
                             print("Input not accepted");
                         }
                     }
-                    print("Moving files to Downloads\\DL-Cleaner\\Trash...");
-                    duplicates.trashMoving(redundantData);
+
+
                 }
             }else {
                 print("No redundant data found");

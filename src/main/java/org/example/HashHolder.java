@@ -24,4 +24,7 @@ public class HashHolder {
     public Long getSize() {
         return size;
     }
+    public String getName() {
+        return path.getFileName().toString();
+    }
 }
