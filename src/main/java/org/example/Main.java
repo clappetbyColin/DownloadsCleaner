@@ -7,7 +7,23 @@ import java.nio.file.*;
 import java.util.List;
 
 public class Main extends Printer{
+    private void helper() {
+        print("--dry-run  ->   in dryRun mode no files will be moved you will only be showed where they would have been moved\n(THIS DOES NOT EFFECT THE DUPLICATES DELETE FUNCTION!!!\ndry-run can be enabled during runTime when the intro was not skipped.");
+        print("example: C:\\Users\\example\\testfolder   ->   you can give the program directory path that you want to be cleaned. (THIS MUST BE A DIRECTORY otherwise the program will choose your downloads folder");
+    }
     public void main(String[] args) throws IOException, InterruptedException {
+        try{
+            for (String arg : args) {
+                if (arg.equals("--help")) {
+                   helper();
+                   while(true){
+
+                   }
+                }
+            }
+        } catch (Exception e) {
+
+        }
         print("It can be necessary to start the application with admin-permissions");
         Maping mapper = new Maping();
         Navigator navigator = new Navigator();
