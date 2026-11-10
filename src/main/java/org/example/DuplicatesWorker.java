@@ -155,9 +155,10 @@ public class DuplicatesWorker extends Printer {
             for(int i = 0; i < data.size();i++) {
                 try {
                     Files.move(data.get(i), executer.buildNewDestinationPath(zielVerzeichnis.resolve("downloads").resolve("DL-Cleaner").resolve("Trash"),nameMod.removeEndung(data.get(i).getFileName().toString()),nameMod.holeDateiEndungen(data.get(i).getFileName().toString())));
+                    print("moved");
                 } catch (IOException e) {
                     print(e.getMessage());
-                    print("Fehler1");
+                    //print("Fehler1");
                 }
             }
         }else {
@@ -165,15 +166,16 @@ public class DuplicatesWorker extends Printer {
                 Files.createDirectories(zielVerzeichnis.resolve("downloads").resolve("DL-Cleaner").resolve("Trash"));
             } catch (IOException e) {
                 print(e.getMessage());
-                print("Fehler2");
+               // print("Fehler2");
             }
 
             for(int i = 0; i < data.size();i++) {
                 try {
                     Files.move(data.get(i), executer.buildNewDestinationPath(zielVerzeichnis.resolve("downloads").resolve("DL-Cleaner").resolve("Trash"),nameMod.removeEndung(data.get(i).getFileName().toString()),nameMod.holeDateiEndungen(data.get(i).getFileName().toString())));
+                    print("moved");
                 } catch (IOException e) {
                     print(e.getMessage());
-                    print("Fehler3");
+                    //print("Fehler3");
                 }
             }
         }
