@@ -79,6 +79,12 @@ When safeRun is enabled you also will be shown a list with redundant files but
 the program will not delete them. It will move all files into Downloads//DL-Cleaner//Trash and after that you can continue with the origin files moving function. after moving the redundant files you will also be asked if you want to open the folder where the redundant files where moved.
 All this will be explained while the program during runtime if you choose not to skip the intro at the beginning.
 
+Parameters:
+
+--dry-run
+--help
+"A folderpath"
+
 Building from source
 
 Requirements:
