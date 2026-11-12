@@ -12,6 +12,7 @@ By default, it cleans up your **Downloads** folder. If you specify a different f
 - **Dry-run mode** to see where files would go without moving a single file
 - Never overwrites anything: if a file name already exists at the destination, it becomes `file (1).ext`, `file (2).ext`, …
 - Leaves **unfinished downloads** and **hidden files** alone
+- Writes a **log file** for every run, so you can always see what was moved, deleted or skipped
 - A short **intro guide** for first-time users
 
 ## Download
@@ -116,6 +117,23 @@ The `Trash` folder is always inside your Downloads folder, even if you clean up 
 
 **Note:** Empty files (0 bytes) all have the same content, so they count as duplicates of each other.
 
+## Logs
+
+Every time you run Download-Cleaner, it writes a log file that records what happened — so you can always check later where a file went.
+
+**Where?** In `<user>\DL-Cleaner\logs`. Each run gets its own file, named after the date and time it was started, e.g. `2026-11-12-14-05-31 logs.log`.
+
+**What's in it?**
+
+- the choices you made (safeRun, dry-run, intro, confirmations)
+- every file that was **sorted**, with its old and its new location
+- every duplicate that was **moved to Trash** or **deleted**
+- every **error**, with the file it happened to and the reason
+
+Each line starts with the time. The columns are separated by tabs, so you can open the file in Excel and every entry is split into neat columns. Otherwise any text editor works too.
+
+The log folder is outside of your Downloads folder on purpose, so Download-Cleaner never sorts its own logs. Old log files are not deleted automatically — you can safely remove them whenever you like.
+
 ## What is never touched
 
 - **Unfinished downloads:** `.crdownload`, `.part`, `.partial`, `.download`, `.tmp`, `.opdownload`
@@ -126,7 +144,7 @@ The `Trash` folder is always inside your Downloads folder, even if you clean up 
 
 - Files are **really moved**. If you're unsure, run with `--dry-run` first.
 - **Administrator rights** may be needed, because the Archive and Installer folders are created directly on your drive (e.g. `C:\Archive`). If moving fails with an "access denied" error, start the program as administrator.
-- If a single file can't be moved (e.g. because it's open in another program), it is reported and skipped; all other files are still processed.
+- If a single file can't be moved (e.g. because it's open in another program), it is reported, written to the log and skipped; all other files are still processed.
 - File extensions are normalized to lowercase when moved (`PHOTO.JPG` → `PHOTO.jpg`).
 - **OneDrive:** If your Documents or Pictures folder is synced with OneDrive, Windows may store it in a different location (e.g. `C:\Users\YourName\OneDrive\Documents`). Download-Cleaner always uses the folders inside your user folder, so check where your files end up after the first run.
 
@@ -150,6 +168,7 @@ The result is in `build\libs`.
 ```
 native-image -jar build\libs\DownloadsCleaner-1.0-SNAPSHOT.jar DL-Cleaner
 ```
+
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
