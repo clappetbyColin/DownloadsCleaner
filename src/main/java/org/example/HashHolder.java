@@ -7,9 +7,9 @@ import java.util.List;
 import java.nio.file.Path;
 
 public class HashHolder {
-    private String contentHash;
-    private Path path;
-    private Long size;
+    private final String contentHash;
+    private final Path path;
+    private final Long size;
     public HashHolder(String contentHash, Path path, Long size){
         this.contentHash = contentHash;
         this.path = path;

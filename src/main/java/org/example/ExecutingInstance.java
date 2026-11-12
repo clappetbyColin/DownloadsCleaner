@@ -13,9 +13,11 @@ import java.util.*;
 import java.nio.file.*;
 import java.util.List;
 public class ExecutingInstance extends Printer {
-    private NameModifier nameMod;
-    public ExecutingInstance(NameModifier mod) {
+    private final NameModifier nameMod;
+    private final ActionLogger dietrich;
+    public ExecutingInstance(NameModifier mod, ActionLogger log) {
         this.nameMod = mod;
+        this.dietrich = log;
     }
     public List<Path> holeAlleDateien(String adresse) throws IOException {
         Path path = Path.of(adresse);
@@ -36,11 +38,6 @@ public class ExecutingInstance extends Printer {
         } catch (Exception e) {
             print(e.getMessage());
         }
-        // print("Folgende Dateien wurden gefunden:");
-       /* for (int i = 0; i < dateien.size(); i++) {
-            print(dateien.get(i).getFileName());
-        }*/
-
         return dateien;
     }
 
@@ -54,6 +51,8 @@ public class ExecutingInstance extends Printer {
                 if (!regeln.get(endung).equals("DontTouch")) {
                     gefilterteDateien.add(listeVonDateien.get(i));
                     print(listeVonDateien.get(i).getFileName().toString());
+                } else {
+                    dietrich.logSkipped(listeVonDateien.get(i),"file is currently downloading");
                 }
             } else {
                 gefilterteDateien.add(listeVonDateien.get(i));

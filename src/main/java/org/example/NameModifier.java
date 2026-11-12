@@ -21,10 +21,8 @@ public class NameModifier extends Printer {
                 } catch (Exception e) {
                     print(e.getMessage());
                     print(". is not a valid format for a file");
-                } finally {
-                    break;
                 }
-
+                break;
             }
         }
         return endung;
