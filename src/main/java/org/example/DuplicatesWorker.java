@@ -95,7 +95,7 @@ public class DuplicatesWorker extends Printer {
                         try {
                             hashHolders.add(new HashHolder(buildFileHash(hashMap.get(sizeList.get(i)).get(j)), hashMap.get(sizeList.get(i)).get(j), sizeList.get(i)));
                         } catch (IOException e) {
-                            dietrich.updateLogFile("\thash-building error\t" + sizeList.get(i) + "\t\t" + e.getMessage());
+                            dietrich.updateLogFile("\thash-building error\t" + hashMap.get(sizeList.get(i)).get(j) + "\t\t" + e.getMessage());
                         }
                     }
                 }
