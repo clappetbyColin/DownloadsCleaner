@@ -151,6 +151,8 @@ public class Main extends Printer {
                         if ((input.equals("Y")) || (input.equals("y"))) {
                             dietrich.logUserChoice("Delete files?","Yes");
                             duplicates.deleteDuplicateFiles(redundantData);
+                            filteredListofFiles.removeAll(redundantData);
+                            redundantData.clear();
                             break;
                         } else if ((input.equals("N")) || (input.equals("n"))) {
                            dietrich.logUserChoice("Delete files?","No");
@@ -159,8 +161,7 @@ public class Main extends Printer {
                             print("Input not accepted");
                         }
                     }
-                    filteredListofFiles.removeAll(redundantData);
-                    redundantData.clear();
+
                 } else {
                     print("\nMove files?");
                     Thread.sleep(1500);
