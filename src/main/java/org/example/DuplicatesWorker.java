@@ -101,7 +101,7 @@ public class DuplicatesWorker extends Printer {
                 }
 
             }
-
+            sortTheHashHolders(hashHolders);
             for (int i = 0; i < hashHolders.size(); i++) {
                 for (int j = i + 1; j < hashHolders.size(); j++) {
                     if ((hashHolders.get(i).getContentHash().equals(hashHolders.get(j).getContentHash())) && (hashHolders.get(i).getSize().equals(hashHolders.get(j).getSize()))) {
@@ -152,9 +152,10 @@ public class DuplicatesWorker extends Printer {
             Path ziel = executer.buildNewDestinationPath(trashOrdner, nameMod.removeEndung(name), nameMod.holeDateiEndungen(name));
 
             try {
+                Files.createDirectories(trashOrdner);
                 Files.move(quelle, ziel);
                 print("moved");
-                dietrich.logMoved(quelle,ziel);
+                dietrich.logTrashed(quelle,ziel);
             } catch (IOException e) {
                 print(e.getMessage());
                 dietrich.logError(quelle,"Failed to move file to "+ziel.toString());

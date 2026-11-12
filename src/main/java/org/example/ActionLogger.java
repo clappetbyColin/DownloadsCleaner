@@ -70,7 +70,7 @@ public class ActionLogger extends Printer {
             LocalDateTime currentTime = LocalDateTime.now();
             DateTimeFormatter formatted = DateTimeFormatter.ofPattern("HH-mm-ss");
             String timeNow = currentTime.format(formatted);
-            content = timeNow+"\t "+content;
+            content = timeNow+"\t"+content;
             Files.writeString(this.logPath.resolve(this.zeit + " logs.log"), content + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (Exception e) {
             print(e.getMessage());

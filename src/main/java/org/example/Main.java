@@ -101,7 +101,6 @@ public class Main extends Printer {
                     ordnerPfad = arg;
                 }
             }
-            dietrich.logRunStart(ordnerPfad,dryRun,safeRun);
             try {
                 if (ordnerPfad == null) {
                     ordnerPfad = System.getProperty("user.home") + "//Downloads";
@@ -121,6 +120,7 @@ public class Main extends Printer {
                         }
                     }
                 }
+                dietrich.logRunStart(ordnerPfad,dryRun,safeRun);
             } catch (Exception e) {
                 print("Something went wrong. " + e.getMessage());
                 dietrich.updateLogFile("\terror: " + e.getMessage());
@@ -159,6 +159,8 @@ public class Main extends Printer {
                             print("Input not accepted");
                         }
                     }
+                    filteredListofFiles.removeAll(redundantData);
+                    redundantData.clear();
                 } else {
                     print("\nMove files?");
                     Thread.sleep(1500);
@@ -177,14 +179,15 @@ public class Main extends Printer {
                             print("Input not accepted");
                         }
                     }
+
                     filteredListofFiles.removeAll(redundantData);
                     redundantData.clear();
-
 
                 }
             } else {
                 print("No redundant data found");
             }
+
             Thread.sleep(1000);
             print("Press enter to continue.");
             dietrich.logUserChoice("Press enter to continue","done");
@@ -257,7 +260,7 @@ public class Main extends Printer {
                             Files.createDirectories(destinationFolderPath);
                         }
                         Files.move(filteredListofFiles.get(i), destinationPath);
-                        dietrich.updateLogFile("\tmoved file \t\t " + filteredListofFiles.get(i) + destinationPath);
+                       dietrich.logMoved(filteredListofFiles.get(i), destinationPath);
                         print(filteredListofFiles.get(i).getFileName().toString() + " moved");
                     } catch (Exception e) {
                         print("malfunction: " + filteredListofFiles.get(i).getFileName().toString() + e.getMessage());
