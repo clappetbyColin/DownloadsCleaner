@@ -13,26 +13,39 @@ public class Main extends Printer {
     }
 
     public void main(String[] args) throws IOException, InterruptedException {
+        boolean build = true;
         ActionLogger dietrich = new ActionLogger();
-        try {
-            for (String arg : args) {
-                if (arg.equals("--help")) {
-                    helper();
-                    dietrich.updateLogFile("\tactivated help \t parameters");
-                    dietrich.updateLogFile("\t");
-                    terminate();
-                }
-            }
-        } catch (Exception e) {
-            print(e.getMessage());
-        }
-        print("It can be necessary to start the application with admin-permissions");
         Maping mapper = new Maping();
         Navigator navigator = new Navigator();
         Maping maping = new Maping();
         NameModifier nameM = new NameModifier();
         ExecutingInstance executer = new ExecutingInstance(nameM, dietrich);
         DuplicatesWorker duplicates = new DuplicatesWorker(executer, nameM, dietrich);
+        ReversedCursedTechnique timeMachine = new ReversedCursedTechnique(dietrich, executer, nameM);
+        try {
+            for (String arg : args) {
+                if (arg.equals("--help")) {
+                    helper();
+                    dietrich.buildIT();
+                    build = false;
+                    dietrich.updateLogFile("\tactivated help \t parameters");
+                    dietrich.updateLogFile("\t");
+                    terminate();
+                } else if(arg.equals("--undo")) {
+                    print("Starting reverse");
+                    timeMachine.reverse();
+                    terminate();
+                }
+            }
+        } catch (Exception e) {
+            print(e.getMessage());
+            terminate();
+        }
+        if(build) {
+            dietrich.buildIT();
+        }
+        print("It can be necessary to start the application with admin-permissions");
+
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
