@@ -7,9 +7,13 @@ import java.time.format.DateTimeFormatter;
 
 public class ActionLogger extends Printer {
     private Path logPath;
-    private final String zeit;
+    private String zeit;
 
-    public ActionLogger() throws IOException {
+    public ActionLogger(){
+
+
+    }
+    public void buildIT()throws IOException  {
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter formatted = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
         this.zeit = currentTime.format(formatted);
@@ -23,7 +27,6 @@ public class ActionLogger extends Printer {
             print("Could not create log file");
             terminate();
         }
-
     }
     private void schreibe(String aktion, String quelle, String ziel, String meldung)throws IOException {
         updateLogFile(aktion + "\t" + quelle + "\t" + ziel + "\t" + meldung);
