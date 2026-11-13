@@ -13,6 +13,7 @@ By default, it cleans up your **Downloads** folder. If you specify a different f
 - Never overwrites anything: if a file name already exists at the destination, it becomes `file (1).ext`, `file (2).ext`, …
 - Leaves **unfinished downloads** and **hidden files** alone
 - Writes a **log file** for every run, so you can always see what was moved, deleted or skipped
+- **Undo**: puts all files from the last run back where they came from
 - A short **intro guide** for first-time users
 
 ## Download
@@ -51,6 +52,7 @@ Just start `DL-Cleaner.exe`. The tool will walk you through these steps:
 
 ```
 DL-Cleaner.exe [folder] [--dry-run]
+DL-Cleaner.exe --undo
 DL-Cleaner.exe --help
 ```
 
@@ -58,6 +60,7 @@ DL-Cleaner.exe --help
 |---|---|
 | `folder` | The folder to clean up. Defaults to your Downloads folder. |
 | `--dry-run` | Only show where files *would* be moved. No files are sorted. **Does not affect duplicates**, see below. |
+| `--undo` | Moves the files from the last run back to where they were. Nothing else is done. See [Undo](#undo). |
 | `--help` | Shows an overview of all options. |
 
 The order of the arguments doesn't matter. Put paths containing spaces in quotes.
@@ -68,6 +71,7 @@ The order of the arguments doesn't matter. Put paths containing spaces in quotes
 DL-Cleaner.exe
 DL-Cleaner.exe --dry-run
 DL-Cleaner.exe "D:\My Files" --dry-run
+DL-Cleaner.exe --undo
 ```
 
 **Which folder gets cleaned up?**
@@ -108,7 +112,7 @@ Before sorting, Download-Cleaner looks for files with **identical content** — 
 | | safeRun **enabled** | safeRun **disabled** |
 |---|---|---|
 | Duplicates are … | **moved** to `<user>\Downloads\DL-Cleaner\Trash` | **permanently deleted** |
-| Can be undone? | Yes — just move them back | **No.** They do **not** go to the Recycle Bin. |
+| Can be undone? | Yes — with `--undo` or by moving them back yourself | **No.** They do **not** go to the Recycle Bin, and `--undo` cannot bring them back. |
 | Asks before doing it? | Yes | Yes |
 
 > ⚠️ **Important:** `--dry-run` does **not** apply to duplicates. Even in dry-run mode, duplicates are moved or deleted once you confirm. If you are unsure, enable **safeRun**.
@@ -117,9 +121,34 @@ The `Trash` folder is always inside your Downloads folder, even if you clean up 
 
 **Note:** Empty files (0 bytes) all have the same content, so they count as duplicates of each other.
 
+## Undo
+
+Not happy with the result? Start the program with `--undo` and it puts the files from your **last run** back where they came from:
+
+```
+DL-Cleaner.exe --undo
+```
+
+**What happens:**
+
+1. Download-Cleaner reads the log file of the most recent run
+2. It shows you a list of every file and where it will be moved back to
+3. After you confirm, the files are moved back — both the **sorted files** and the **duplicates that were moved to Trash**
+
+**Good to know:**
+
+- **Nothing is overwritten.** If a different file is now sitting at the original location, the restored file gets a number: `photo (1).jpg`.
+- If the original folder doesn't exist anymore, it is created again.
+- If a file is no longer where Download-Cleaner put it (because you moved or deleted it in the meantime), it is reported as missing and skipped. All other files are still moved back.
+- **Deleted duplicates cannot be restored.** If you ran without safeRun and let the program delete duplicates, they are gone for good.
+- Each `--undo` reverts **one** run. Afterwards the log of that run is moved to `<user>\DL-Cleaner\usedLogs`, so it can't be undone twice. Run `--undo` again to go one more run back.
+- **If some files could not be moved back** (for example because one was open in another program), the log is still moved to `usedLogs`. You can open it in a text editor to see where each file belongs, or move the log file back into `<user>\DL-Cleaner\logs` and run `--undo` again. Files that are already back in place are then simply reported as missing and skipped.
+- Undo always looks at the **most recent** log. If your last run didn't move any files (for example a dry-run), the list will be empty. Confirm and run `--undo` once more to reach the run before that.
+- Empty folders that are left behind (such as `Documents\DL-Cleaner`) are not removed.
+
 ## Logs
 
-Every time you run Download-Cleaner, it writes a log file that records what happened — so you can always check later where a file went.
+Every time you run Download-Cleaner, it writes a log file that records what happened — so you can always check later where a file went. These logs are also what makes `--undo` possible.
 
 **Where?** In `<user>\DL-Cleaner\logs`. Each run gets its own file, named after the date and time it was started, e.g. `2026-11-12-14-05-31 logs.log`.
 
@@ -132,7 +161,9 @@ Every time you run Download-Cleaner, it writes a log file that records what happ
 
 Each line starts with the time. The columns are separated by tabs, so you can open the file in Excel and every entry is split into neat columns. Otherwise any text editor works too.
 
-The log folder is outside of your Downloads folder on purpose, so Download-Cleaner never sorts its own logs. Old log files are not deleted automatically — you can safely remove them whenever you like.
+The log folder is outside of your Downloads folder on purpose, so Download-Cleaner never sorts its own logs.
+
+Logs of runs that have been undone are moved to `<user>\DL-Cleaner\usedLogs`. Old log files are not deleted automatically. You can remove them whenever you like — but keep in mind that a run can only be undone as long as its log is still in the `logs` folder.
 
 ## What is never touched
 
@@ -142,7 +173,7 @@ The log folder is outside of your Downloads folder on purpose, so Download-Clean
 
 ## Notes
 
-- Files are **really moved**. If you're unsure, run with `--dry-run` first.
+- Files are **really moved**. If you're unsure, run with `--dry-run` first — and if you don't like the result, `--undo` moves everything back.
 - **Administrator rights** may be needed, because the Archive and Installer folders are created directly on your drive (e.g. `C:\Archive`). If moving fails with an "access denied" error, start the program as administrator.
 - If a single file can't be moved (e.g. because it's open in another program), it is reported, written to the log and skipped; all other files are still processed.
 - File extensions are normalized to lowercase when moved (`PHOTO.JPG` → `PHOTO.jpg`).
